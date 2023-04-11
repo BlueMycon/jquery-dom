@@ -86,10 +86,14 @@
     // let green = $('input[type = number]').eq(2).val();
     let rgbArr = [];
 
-    $("input[type = number]").each(function() {
-      rgbArr.push($(this).val());
-    });
-    [red, blue, green] = rgbArr;
+    // $("input[type = number]").each(function() {
+    //   rgbArr.push($(this).val());
+    // });
+    // [red, blue, green] = rgbArr;
+
+    [red, blue, green] = $("input[type = number]")
+      .map(() => $(this).val()).get();
+
     $("body").css("background-color", `rgb(${red}, ${green}, ${blue})`);
   });
 
