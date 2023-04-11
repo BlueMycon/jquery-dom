@@ -74,7 +74,29 @@
 </div>
 <script src="https://unpkg.com/jquery"></script>
 <script>
-  // Add your code here!
+  $("article > img").addClass("image-center");
+  $("article > p").last().remove();
+  $("#title").css("font-size", Math.floor(Math.random() * 101));
+  $("aside > ol").append("<li> This is a test. </li>");
+  $("aside").empty().html("<p> I am so sorry for the list that was here. </p>");
+
+  $("input[type = number]").on("change", function() {
+    // let red = $('input[type = number]').eq(0).val();
+    // let blue = $('input[type = number]').eq(1).val();
+    // let green = $('input[type = number]').eq(2).val();
+    let rgbArr = [];
+
+    $("input[type = number]").each(function() {
+      rgbArr.push($(this).val());
+    });
+    [red, blue, green] = rgbArr;
+    $("body").css("background-color", `rgb(${red}, ${green}, ${blue})`);
+  });
+
+  $("img[src ='pup-in-cup.jpg']").on("click", function(evt) {
+    $(evt.target).remove();
+  })
+
 </script>
 </body>
 
