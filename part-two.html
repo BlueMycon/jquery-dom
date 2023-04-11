@@ -8,10 +8,10 @@
 <body>
   <form>
     <label for="title">Title: </label>
-    <input type="text" name="title" minlength="2" />
+    <input type="text" name="title" minlength="2" required />
 
     <label for="rating">Rating: </label>
-    <input type="number" name="rating" min="0" max="10" />
+    <input type="number" name="rating" min="0" max="10" required />
 
     <input type="submit" value="Add Movie"/>
   </form>
@@ -20,14 +20,23 @@
 
 <script src="https://unpkg.com/jquery"></script>
 <script>
-  $("form").on("submit", () => {
+  $("form").on("submit", (evt) => {
+    evt.preventDefault();
     const title = $("input[name='title']").val();
     const rating = $("input[name='rating']").val();
     console.log('title=', title, "rating=", rating);
-    $("#movie-container").append("<div></div>");
-    $("#movie-container div").append(`<p>${title}</p>`,
-     `<p>${rating}</p>`, `<button class="delete">Delete Movie</button>`)
+    const newId = $('#movie-container div').get().length + 1;
+    $("#movie-container").append(`<div id = ${newId}></div>`);
+    $(`#movie-container div#${newId}`).append(`<p>${title}</p>`,
+     `<p>${rating}</p>`, `<button class="delete">Delete Movie</button>`);
+     $("input[name='title']").val("");
+     $("input[name='rating']").val("");
   });
+
+  $("#movie-container").on("click", "div", (evt) => {
+    $(evt.target).parent().remove();
+  });
+
 </script>
 </body>
 </html>
