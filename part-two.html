@@ -16,6 +16,12 @@
     <input type="submit" value="Add Movie"/>
   </form>
 
+  <label for='sort-by'>Sort By: </label>
+  <select type="choice">
+    <option value="title">Title</option>
+    <option value="rating">Rating</option>
+  </select>
+
   <div id="movie-container"></div>
 
 <script src="https://unpkg.com/jquery"></script>
@@ -26,9 +32,13 @@
     const rating = $("input[name='rating']").val();
     console.log('title=', title, "rating=", rating);
     const newId = $('#movie-container div').get().length + 1;
+
     $("#movie-container").append(`<div id = ${newId}></div>`);
-    $(`#movie-container div#${newId}`).append(`<p>${title}</p>`,
-     `<p>${rating}</p>`, `<button class="delete">Delete Movie</button>`);
+    $(`#movie-container div#${newId}`).append(
+      `<p class='title'>${title}</p>`,
+      `<p class='rating'>${rating}</p>`,
+      `<button class="delete">Delete Movie</button>`);
+
      $("input[name='title']").val("");
      $("input[name='rating']").val("");
   });
@@ -36,6 +46,34 @@
   $("#movie-container").on("click", "div", (evt) => {
     $(evt.target).parent().remove();
   });
+
+  $("select").on("change", () => {
+    const option = $("select option:selected").val();
+    if (option === 'title') {
+      sortByTitle();
+    };
+    if (option === 'rating') sortByRating();
+  });
+
+  function sortByTitle() {
+    const movieElements = $("#movie-container div").get();
+    movieElements.sort((a,b) => {
+      const compareMetric = $(a).find("p.title").text() < $(b).find("p.title").text();
+      if (compareMetric) return -1;
+      if (!compareMetric) return 1;
+      return 0;
+    });
+    console.log('movieElem after=', $(movieElements[0]).find("p.title").text());
+    $("#movie-container").empty().append(movieElements);
+  }
+
+  function sortByRating() {
+    const movieElements = $("#movie-container div").get();
+    movieElements.sort((a,b) => {
+      return +$(a).find("p.rating").text() - +$(b).find("p.rating").text();
+    });
+    $("#movie-container").empty().append(movieElements);
+  }
 
 </script>
 </body>
